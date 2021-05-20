@@ -34,6 +34,7 @@ public class Build : MonoBehaviour {
         }
 
         EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
+        EditorUserBuildSettings.exportAsGoogleAndroidProject = true;
 
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
         var report = BuildPipeline.BuildPlayer(
@@ -74,9 +75,23 @@ public class Build : MonoBehaviour {
             Directory.Delete(iosExportPath, true);
         }
 
+        //Directory.CreateDirectory(iosExportPath);
         EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
 
-        var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        //https://github.com/juicycleff/flutter-unity-view-widget/issues/234#issuecomment-735307249
+        //var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        var options = BuildOptions.AllowDebugging; // BuildOptions.Development;
+
+        /*
+        switch (BuildPipeline.BuildCanBeAppended(BuildTarget.iOS, iosExportPath))
+        {
+            case CanAppendBuild.Unsupported:
+                throw new InvalidOperationException("The build target does not support build appending.");
+            case CanAppendBuild.No:
+                throw new InvalidOperationException("The build cannot be appended.");
+        }
+        */
+
         var report = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             iosExportPath,

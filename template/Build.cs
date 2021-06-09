@@ -18,16 +18,11 @@ public class Build : MonoBehaviour {
     private static readonly string iosExportPath =
         Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
 
-    [MenuItem("ReactNative/Export Android (Unity 2019.3.*) %&n", false, 1)]
+    [MenuItem("ReactNative/Export Android (Unity 2019.4.*) %&n", false, 1)]
     public static void DoBuildAndroidLibrary() {
         DoBuildAndroid(Path.Combine(apkPath, "unityLibrary"));
-
+        
         Copy(Path.Combine(apkPath, "launcher/src/main/res"), Path.Combine(androidExportPath, "src/main/res"));
-    }
-
-    [MenuItem("ReactNative/Export Android legacy %&a", false, 2)]
-    public static void DoBuildAndroidLegacy() {
-        DoBuildAndroid(Path.Combine(apkPath, Application.productName));
     }
 
     public static void DoBuildAndroid(String buildPath) {
@@ -39,8 +34,11 @@ public class Build : MonoBehaviour {
         }
 
         EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
+        EditorUserBuildSettings.exportAsGoogleAndroidProject = true;
 
-        var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        //var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        var options = BuildOptions.AllowDebugging; // BuildOptions.Development;
+
         var report = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             apkPath,
@@ -51,9 +49,8 @@ public class Build : MonoBehaviour {
         if (report.summary.result != BuildResult.Succeeded) {
             throw new Exception("Build failed");
         }
-
+        
         Copy(buildPath, androidExportPath);
-
         // Modify build.gradle
         var build_file = Path.Combine(androidExportPath, "build.gradle");
         var build_text = File.ReadAllText(build_file);
@@ -62,7 +59,7 @@ public class Build : MonoBehaviour {
         build_text = build_text.Replace("enableSplit = false", "enable false");
         build_text = build_text.Replace("enableSplit = true", "enable true");
         build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "implementation ':unity-classes'");
-        build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
+        // build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
         File.WriteAllText(build_file, build_text);
 
         // Modify AndroidManifest.xml
@@ -74,15 +71,29 @@ public class Build : MonoBehaviour {
         File.WriteAllText(manifest_file, manifest_text);
     }
 
-    [MenuItem("ReactNative/Export IOS (Unity 2019.3.*) %&i", false, 3)]
+    [MenuItem("ReactNative/Export IOS (Unity 2019.4.*) %&i", false, 2)]
     public static void DoBuildIOS() {
         if (Directory.Exists(iosExportPath)) {
             Directory.Delete(iosExportPath, true);
         }
 
+        //Directory.CreateDirectory(iosExportPath);
         EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
 
-        var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        //https://github.com/juicycleff/flutter-unity-view-widget/issues/234#issuecomment-735307249
+        //var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        var options = BuildOptions.AllowDebugging; // BuildOptions.Development;
+
+        /*
+        switch (BuildPipeline.BuildCanBeAppended(BuildTarget.iOS, iosExportPath))
+        {
+            case CanAppendBuild.Unsupported:
+                throw new InvalidOperationException("The build target does not support build appending.");
+            case CanAppendBuild.No:
+                throw new InvalidOperationException("The build cannot be appended.");
+        }
+        */
+
         var report = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             iosExportPath,

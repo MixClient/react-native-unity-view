@@ -51,6 +51,11 @@ public class UnityNativeModule extends ReactContextBaseJavaModule implements Uni
     }
 
     @ReactMethod
+    public void isPaused(final Promise promise) {
+        promise.resolve(UnityUtils.isUnityPaused());
+    }
+
+    @ReactMethod
     public void pause() {
         UnityUtils.pause();
     }

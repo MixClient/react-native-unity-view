@@ -40,6 +40,11 @@ export interface UnityModule {
     postMessage (gameObject: string, methodName: string, message: string): void;
 
     /**
+     * Is the unity player paused
+     */
+     isPaused (): Promise<boolean>;
+
+    /**
      * Pause the unity player
      */
     pause (): void;
@@ -144,6 +149,10 @@ class UnityModuleImpl implements UnityModule {
 
     public postMessage (gameObject: string, methodName: string, message: string) {
         UnityNativeModule.postMessage(gameObject, methodName, message)
+    }
+
+    public isPaused () {
+        return UnityNativeModule.isPaused()
     }
 
     public pause () {

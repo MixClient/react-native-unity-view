@@ -35,8 +35,15 @@ public class UnityView extends FrameLayout {
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        UnityUtils.resume();
+        super.onAttachedToWindow();
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
-        UnityUtils.addUnityViewToBackground();
+        UnityUtils.pause();
+        // UnityUtils.addUnityViewToBackground();
         super.onDetachedFromWindow();
     }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "@qumeta/react-native-unity-view",
+  "name": "@mixclient/react-native-unity-view",
   "title": "React Native Unity View",
-  "version": "0.0.12",
+  "version": "0.0.1",
   "description": "Embed Unity Player inside a React Native app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,15 +10,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qumeta/react-native-unity-view.git",
-    "baseUrl": "https://github.com/qumeta/react-native-unity-view"
+    "url": "git+https://github.com/mixclient/react-native-unity-view.git",
+    "baseUrl": "https://github.com/mixclient/react-native-unity-view"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "qumeta",
-    "email": "lilinghui@gmail.com"
+    "name": "mixclient",
+    "email": "lilinghui@techooh.com"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",

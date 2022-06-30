@@ -1,4 +1,4 @@
-package no.asmadsen.unity.view;
+package no.mixclient.unity.view;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;

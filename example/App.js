@@ -25,7 +25,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import UnityView, { UnityModule } from '@asmadsen/react-native-unity-view';
+import UnityView, { UnityModule } from '@mixclient/react-native-unity-view';
 
 const App: () => React$Node = () => {
   const [count, setClickCount] = useState(0)

@@ -1,4 +1,4 @@
-package no.asmadsen.unity.view;
+package no.mixclient.unity.view;
 
 import android.app.Activity;
 import android.content.Context;

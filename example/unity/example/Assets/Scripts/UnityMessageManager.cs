@@ -101,7 +101,7 @@ public class UnityMessageManager : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            using (AndroidJavaClass jc = new AndroidJavaClass("no.asmadsen.unity.view.UnityUtils"))
+            using (AndroidJavaClass jc = new AndroidJavaClass("no.mixclient.unity.view.UnityUtils"))
             {
                 jc.CallStatic("onUnityMessage", message);
             }
